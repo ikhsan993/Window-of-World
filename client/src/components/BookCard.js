@@ -1,16 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import serangkai from '../assets/img/serangkai.png'
 
-export default function BookCard() {
+export default function BookCard({ item }) {
     return (
         <>
          <div className="card book" >
-            <Link to="/book-detail/4">
-                <img className="card-img-top" src={serangkai} alt="Card image cap"/>
+            <Link to={'/book-detail/'+item.id}>
+                <img className="card-img-top" src={item.cover} alt="Card image cap"/>
                 <div className="card-body bg-grey">
-                    <p className="card-text"><b>Serangkai</b></p>
-                    <p className="card-text text-grey">Valerie Parker</p>
+                    <p className="card-text"><b>{item.title}</b></p>
+                    <p className="card-text text-grey">{item.author}</p>
                 </div>
             </Link>
         </div>   

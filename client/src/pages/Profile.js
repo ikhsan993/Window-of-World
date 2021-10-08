@@ -1,12 +1,32 @@
+// React Components
 import React from 'react'
-import Sidebar from '../components/Sidebar'
+import { useQuery } from "react-query";
+import { API } from "../config/api";
+import Sidebar from '../components/Sidebar';
+import BookCard from '../components/BookCard';
+
+// Assets
 import mail from '../assets/img/mail.png'
 import phone from '../assets/img/phone.png'
 import place from '../assets/img/place.png'
 import gender from '../assets/img/gender.png'
 import UserImage from '../assets/img/user.jpg'
-import BookCard from '../components/BookCard'
+
 export default function Profile() {
+
+  let api = API();
+  let { data: books, refetch } = useQuery("booksCache", async () => {
+  const config = {
+    method: "GET",
+    headers: {
+      Authorization: "Basic " + localStorage.token,
+    },
+  };
+  const response = await api.get("/book-list", config);
+  console.log(response.data);
+  let ok = response.data;
+  return response.data;
+});
     return (
         <>
        <div className="container-fluid main-bg home-container">
@@ -68,7 +88,11 @@ export default function Profile() {
           <div className="mt-5"></div>
           <h4><b> My List Book </b></h4>
           <div className="mt-4">
-          <BookCard/>
+          <div className="books">
+           {books?.map((item, index) => (
+                <BookCard item={item} key={index} />
+                ))}
+           </div>
           </div>
           </div>
           </div>

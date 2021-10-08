@@ -31,7 +31,7 @@ router.delete('/book/:id',auth, deleteBook)
 
 //book list
 router.post('/book-list',auth, addBookList)
-router.get('/book-list/:id',auth, getBookList)
+router.get('/book-list',auth, getBookList)
 router.delete('/book-list/:id',auth, deleteBookList)
 
 // subscribes
