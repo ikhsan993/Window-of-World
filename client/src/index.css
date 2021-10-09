@@ -3,6 +3,10 @@
   /* border: solid 1px #D60000; */
 }
 
+body {
+    overflow-y: scroll;
+  overflow-x: hidden;
+}
 /* background, teks & font */
 .dropdown-toggle {background:#E5E5E5!important;}
 .text-red{color:#D60000!important;}
@@ -105,15 +109,17 @@ text-align: left;
   padding-bottom: 40px;
 }
 .book{
-  width: 25%;
-margin: 0 2%;
+  width: 27%;
+  margin: 2%;
 }
 .book a{
   text-decoration: none;
   color: inherit;
 }
 .book a:hover{color: inherit;}
-.books {display: flex;}
+.books {display: flex;
+
+        flex-wrap: wrap;}
 
 
 .profile {

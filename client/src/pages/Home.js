@@ -20,7 +20,6 @@ export default function Home() {
     },
   };
   const response = await api.get("/books", config);
-  console.log(response.data.books);
   return response.data.books;
 });
 

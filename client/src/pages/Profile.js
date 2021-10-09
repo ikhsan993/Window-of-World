@@ -23,8 +23,7 @@ export default function Profile() {
     },
   };
   const response = await api.get("/book-list", config);
-  console.log(response.data);
-  let ok = response.data;
+
   return response.data;
 });
     return (

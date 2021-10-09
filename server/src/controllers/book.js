@@ -58,7 +58,6 @@ exports.getBooks = async (req, res) => {
 exports.getBook = async (req, res) => {
     try {
         const { id } = req.params
-
         let data = await book.findOne({
             where: {
                 id

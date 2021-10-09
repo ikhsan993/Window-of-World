@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom'
 export default function BookCard({ item }) {
     return (
         <>
-         <div className="card book" >
+         <div className="card book  bg-grey" >
             <Link to={'/book-detail/'+item.id}>
-                <img className="card-img-top" src={item.cover} alt="Card image cap"/>
-                <div className="card-body bg-grey">
+                <img className="card-img-top" src={item.cover} alt="Card image cap" height="300px"/>
+                <div className="card-body">
                     <p className="card-text"><b>{item.title}</b></p>
                     <p className="card-text text-grey">{item.author}</p>
                 </div>

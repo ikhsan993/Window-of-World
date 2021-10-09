@@ -48,13 +48,12 @@ let data = await bookList.findAll({
      });
    data = JSON.parse(JSON.stringify(data));
    data = data.map((item) => {
-      return { bookId : item.bookId ,
+      return { id : item.bookId ,
             cover: process.env.FILE_PATH + item.book.cover,
             title : item.book.title,
             author : item.book.author
             };
     });
-
 
         res.send({
             status: 'success',

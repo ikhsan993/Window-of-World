@@ -41,7 +41,6 @@ function SignIn() {
           body,
         };
         const response = await api.post("/login", config);
-          console.log(response);
         if(response.status == 'success'){
 
           dispatch({
