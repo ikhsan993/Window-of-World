@@ -3,12 +3,17 @@ import {React,useState,useContext }from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import {Link,useHistory} from "react-router-dom";
 import { UserContext } from "../context/userContext";
+import { API } from "../config/api";
+import { useQuery } from "react-query";
+import SubscribeRow from '../components/SubscribeRow';
 //assets
 import Icon from '../assets/img/Icon.png';
 import UserImage from '../assets/img/user.jpg'
-import triangle from '../assets/img/triangle.png';
+
 
 export default function Transaction() {
+
+    let api = API();
     const [state, dispatch] = useContext(UserContext)
     let history = useHistory()
     const logout = (e) => {
@@ -18,7 +23,19 @@ export default function Transaction() {
         type: "LOGOUT"
         })
         history.push("/")
-    }  
+    }
+
+
+  let { data: subscribes} = useQuery("subscribesCache", async () => {
+  const config = {
+    method: "GET",
+    headers: {
+      Authorization: "Basic " + localStorage.token,
+    },
+  };
+  const response = await api.get("/subscribes", config);
+  return response.data;
+});  
     return (
         <>
          <div className="container-fluid main-bg home-container">
@@ -38,7 +55,6 @@ export default function Transaction() {
                     </Dropdown.Menu>
                 </Dropdown>
             </div>
-          
           </div>
           <div className="col-8 mx-auto mt-5">
            <h4><b>Incoming Transcation</b></h4> 
@@ -55,59 +71,10 @@ export default function Transaction() {
       <th scope="col">Action</th>
     </tr>
   </thead>
-  <tbody><tr>
-      <th scope="row">1</th>
-      <td>Radif Ganteng</td>
-      <td>bca.jpg</td>
-      <td>26/Hari</td>
-      <td className="text-success">Active</td>
-      <td className="text-success">Approved</td>
-      <td className="text-center"><img src={triangle}/> </td>
-    </tr>
-      <tr>
-      <th scope="row">2</th>
-      <td>Radif Ganteng</td>
-      <td>bca.jpg</td>
-      <td>26/Hari</td>
-      <td className="text-danger">Not Active</td>
-      <td className="text-danger">Cancel</td>
-      <td className="text-center"><img src={triangle}/> </td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Radif Ganteng</td>
-      <td>bca.jpg</td>
-      <td>26/Hari</td>
-      <td className="text-danger">Not Active</td>
-      <td className="text-warning">Pending</td>
-      <td className="text-center"><img src={triangle}/> </td>
-    </tr>
-    <tr>
-      <th scope="row">4</th>
-      <td>Radif Ganteng</td>
-      <td>bca.jpg</td>
-      <td>26/Hari</td>
-      <td className="text-danger">Not Active</td>
-      <td className="text-warning">Pending</td>
-      <td className="text-center"><img src={triangle}/> </td>
-    </tr>    <tr>
-      <th scope="row">5</th>
-      <td>Radif Ganteng</td>
-      <td>bca.jpg</td>
-      <td>26/Hari</td>
-      <td className="text-danger">Not Active</td>
-      <td className="text-warning">Pending</td>
-      <td className="text-center"><img src={triangle}/> </td>
-    </tr>    
-    <tr>
-      <th scope="row">6</th>
-      <td>Radif Ganteng</td>
-      <td>bca.jpg</td>
-      <td>26/Hari</td>
-      <td className="text-danger">Not Active</td>
-      <td className="text-warning">Pending</td>
-      <td className="text-center"><img src={triangle}/> </td>
-    </tr>
+  <tbody>
+ {subscribes?.map((item, index) => (
+  <SubscribeRow item={item} key={index} />
+  ))}
   </tbody>
 </table>
            </div>

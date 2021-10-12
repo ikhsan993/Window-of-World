@@ -1,15 +1,15 @@
-const { bookList,book } = require('../../models')
+const { booklist,book } = require('../../models')
 
 exports.addBookList = async (req, res) => {
     try {
         let userId = req.user.id;
         let bookId = req.body;
-        await bookList.create({...bookId,userId})
-
+        await booklist.create({...bookId,userId})
         res.send({
             status: 'success',
             message: 'Add book list success',
-            userId
+            userId,
+            bookId
         })
     } catch (error) {
         console.log(error)
@@ -33,7 +33,7 @@ exports.getBookList = async (req, res) => {
         //     }
         // })
 
-let data = await bookList.findAll({
+let data = await booklist.findAll({
       include: 
         {
           model: book,

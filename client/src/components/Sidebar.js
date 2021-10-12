@@ -6,17 +6,37 @@ import user1 from '../assets/img/user 1.png'
 import logout1 from '../assets/img/user 1.png'
 import {Link,useHistory} from "react-router-dom";
 import { UserContext } from "../context/userContext";
+import { useQuery } from "react-query";
+import { API } from "../config/api";
+
 export default function Sidebar() {
-    
-const [state, dispatch] = useContext(UserContext)
+ 
+let api = API();
+const [state, dispatch] = useContext(UserContext);
+const userName = state.userName;
 let history = useHistory()
 const logout = (e) => {
     e.preventDefault();
-    console.log(state)
     dispatch({
         type: "LOGOUT"
         })
     }
+  let { data: user} = useQuery("userCache", async () => {
+    const config = {
+      method: "GET",
+      headers: {
+        Authorization: "Basic " + localStorage.token,
+      },
+    };
+    const response = await api.get("/user", config);
+    return response.data;
+  });
+  let userStatus = "";
+    if (user?.userStatus ==='Active') {userStatus=<b className="text-success ">Subscribed</b>}
+    else {userStatus=<b className="text-red ">Not Subscribed Yet </b>}
+    let photo = "";
+    if (user?.photo ==null) {photo=UserImage}
+    else {photo=user?.photo}    
     return (
         <>
             <div className="col-3 px-3">
@@ -24,11 +44,11 @@ const logout = (e) => {
            <img src={Icon} alt="WoW" width="80px" className="rotate" />
            </div>
            <div className="user-image mt-4 text-center">
-           <img src={UserImage} alt="WoW" width="80px" />
+           <img src={photo} alt="WoW" width="80px" />
            </div>
            <div className="user text-center">
-           <p className="mt-2 fs-4s bold">Egi Ganteng</p>
-           <b className="text-red ">Not Subscribed Yet </b>
+           <p className="mt-2 fs-4s bold">{user?.name}</p>
+           <p>{userStatus}</p>
            </div>
            <div className="row ms-3 mt-5 text-grey">
           <div className="col-2 text-left"> <img className="ico" src={user1} alt="" /></div>

@@ -1,10 +1,9 @@
-const { user } = require('../../models')
+const { user,profile,transaction } = require('../../models')
 
 exports.addUsers = async (req, res) => {
     try {
 
         await user.create(req.body)
-
         res.send({
             status: 'success',
             message: 'Add user finished'
@@ -44,21 +43,62 @@ exports.getUsers = async (req, res) => {
 
 exports.getUser = async (req, res) => {
     try {
-        const { id } = req.params
-
-        const data = await user.findOne({
-            where: {
+        let id = req.user.id;
+        let dataUser = await user.findOne({
+        attributes: {
+        exclude: ['password', 'createdAt', 'updatedAt']
+        }, 
+                where: {
                 id
-            },
-            attributes: {
-                exclude: ['password', 'createdAt', 'updatedAt']
-            }
-        })
+            },   
+             include: [
+        {
+          model: profile,
+          as: "profile",
+          attributes: {
+            exclude: ["createdAt", "updatedAt","password"]
+          }
+        },
+        {  
+          model: transaction,
+          as: "transaction",
+          attributes: {
+            exclude: ["createdAt", "updatedAt","password"]
+        }
+        }
+        ]
 
+
+        });
+        let photo="";
+        let address="";
+        let gender="";
+        let phone="";
+         if (dataUser.profile==null) {
+             photo = null;
+             address = null;
+             gender = null;
+             phone = null;
+         } else {
+             photo = process.env.FILE_PATH + dataUser.profile.photo;
+             address = dataUser.profile.address;
+             gender = dataUser.profile.gender;
+             phone = dataUser.profile.phone;
+         }
+
+        let userStatus = dataUser.transaction[0].userStatus;
+        if (dataUser.transaction ==null){userStatus = null}
         res.send({
             status: 'success',
-            data: {
-                user: data
+            data : {
+                 name : dataUser.name,
+                 email : dataUser.email,
+                 role : dataUser.role,
+                 photo,
+                 gender,
+                 address,
+                 phone,
+                 userStatus
             }
         })
     } catch (error) {

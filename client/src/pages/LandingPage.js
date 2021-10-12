@@ -7,7 +7,7 @@ import SignUp from '../components/SignUp';
 export default function LandingPage() {
     return (
         <>
-        <div className ={cssModules.Wrapper}>
+      <div className ={cssModules.Wrapper}>
       <div className={cssModules.signInWrapper}>
           <img className="mb-3" src ={Icon} alt="img"/>
           <div className="mb-5">

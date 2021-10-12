@@ -7,6 +7,7 @@ const { addUsers, getUsers, getUser, updateUser, deleteUser } = require('../cont
 const { addBook, getBooks, getBook, updateBook, deleteBook } = require('../controllers/book')
 const { addBookList,getBookList,deleteBookList } = require('../controllers/bookList')
 const { addSubscribe,getSubscribe,getSubscribes,updateSubscribe } = require('../controllers/subscribe')
+const { addProfile } = require('../controllers/profile')
 const {register,login} = require('../controllers/auth')
 
 // Middlewares
@@ -16,11 +17,12 @@ const {uploadFile}  = require('../middlewares/uploadFile')
 
 // Route
 // user
-router.post('/user', addUsers)
-router.get('/users', getUsers)
-router.get('/user/:id', getUser)
-router.patch('/user/:id', updateUser)
-router.delete('/user/:id', deleteUser)
+router.post('/user',auth, addUsers)
+router.get('/users',auth, getUsers)
+router.get('/user',auth, getUser)
+router.patch('/user/:id',auth, updateUser)
+router.delete('/user/:id',auth, deleteUser)
+router.post('/profile',auth,uploadFile('photo'), addProfile)
 
 //book 
 router.post('/book',auth,uploadFile('cover'), addBook)
@@ -37,7 +39,7 @@ router.delete('/book-list/:id',auth, deleteBookList)
 // subscribes
 router.post('/subscribe',auth,uploadFile('transferProof'), addSubscribe)
 router.get('/subscribes',auth, getSubscribes)
-router.get('/subscribe/:id',auth, getSubscribe)
+router.get('/subscribe',auth, getSubscribe)
 router.patch('/subscribe/:id',auth, updateSubscribe)
 
 // register

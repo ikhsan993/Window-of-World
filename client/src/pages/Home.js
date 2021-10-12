@@ -4,7 +4,6 @@ import BookCard from '../components/BookCard';
 import Sidebar from '../components/Sidebar';
 import { useQuery } from "react-query";
 import { API } from "../config/api";
-
 // assets
 import banner from '../assets/img/banner.png'
 import { Link } from 'react-router-dom';
@@ -12,7 +11,7 @@ import { Link } from 'react-router-dom';
 export default function Home() {
 
   let api = API();
-  let { data: books, refetch } = useQuery("booksCache", async () => {
+  let { data: books} = useQuery("booksCache", async () => {
   const config = {
     method: "GET",
     headers: {
@@ -20,7 +19,7 @@ export default function Home() {
     },
   };
   const response = await api.get("/books", config);
-  return response.data.books;
+  return response.data.books;  
 });
 
     return (

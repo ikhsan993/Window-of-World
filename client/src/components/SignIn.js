@@ -48,7 +48,7 @@ function SignIn() {
             payload : response.data,
           });
 
-          if(response.data.user.role =='admin'){
+          if(response.data.role =='admin'){
             history.push('/transaction');
           }else{
             history.push('/home');

@@ -31,21 +31,30 @@ exports.getSubscribes = async (req, res) => {
     try {
 
         let data = await transaction.findAll({
-            attributes: {
-                exclude: ['createdAt', 'updatedAt']
-            }
-        })
-        data = JSON.parse(JSON.stringify(data));    
-        data = data.map(item=>{return {
-        ...item,
-        transferProof : process.env.FILE_PATH + item.transferProof, 
-        }
+             include: 
+        {
+          model: user,
+          as: "user",
+          attributes: {
+            exclude: ["createdAt", "updatedAt","password"]
+          },
+        },
+        attributes: {
+        exclude: ["createdAt", "updatedAt","id"]
+      },
+    });
+    data = JSON.parse(JSON.stringify(data));
+    data = data.map((item) => {
+      return { name : item.user.name ,
+            transferProof: process.env.FILE_PATH + item.transferProof,
+            remainingActive : item.remainingActive,
+            userStatus :  item.userStatus,
+            paymentStatus : item.paymentStatus,
+            };
     });
         res.send({
             status: 'success',
-            data: {
                 data
-            }
         })
     } catch (error) {
         console.log(error)
@@ -57,24 +66,23 @@ exports.getSubscribes = async (req, res) => {
 }
 exports.getSubscribe = async (req, res) => {
     try {
-        const { id } = req.params
+        const userId = req.user.id;
         let data = await transaction.findOne({
             where: {
-                id
+                userId
             },
             attributes: {
                 exclude: ['createdAt', 'updatedAt']
             }
         })
         data = JSON.parse(JSON.stringify(data));  
-        data = {...data,
-                transferProof : process.env.FILE_PATH + data.transferProof
-            }
+        // data = {...data,
+        //         transferProof : process.env.FILE_PATH + data.transferProof
+        //     }
+        userStatus = data.userStatus;
         res.send({
             status: 'success',
-            data: {
-                data
-            }
+            userStatus
         })
     } catch (error) {
         console.log(error)

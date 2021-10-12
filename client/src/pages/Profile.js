@@ -4,28 +4,53 @@ import { useQuery } from "react-query";
 import { API } from "../config/api";
 import Sidebar from '../components/Sidebar';
 import BookCard from '../components/BookCard';
-
+import EditProfile from '../components/EditProfile';
 // Assets
 import mail from '../assets/img/mail.png'
-import phone from '../assets/img/phone.png'
+import phoneIco from '../assets/img/phone.png'
 import place from '../assets/img/place.png'
-import gender from '../assets/img/gender.png'
+import genderIco from '../assets/img/gender.png'
 import UserImage from '../assets/img/user.jpg'
 
 export default function Profile() {
 
   let api = API();
-  let { data: books, refetch } = useQuery("booksCache", async () => {
+  let { data: books} = useQuery("booksCache", async () => {
   const config = {
     method: "GET",
     headers: {
       Authorization: "Basic " + localStorage.token,
     },
   };
-  const response = await api.get("/book-list", config);
-
+const response = await api.get("/book-list", config);
+console.log(response.data)
   return response.data;
 });
+  let { data: user} = useQuery("userCache", async () => {
+    const config = {
+      method: "GET",
+      headers: {
+        Authorization: "Basic " + localStorage.token,
+      },
+    };
+    const response = await api.get("/user", config);
+    return response.data;
+  });
+  let userStatus = "";
+    if (user?.userStatus ==='Active') {userStatus=<b className="text-success ">Subscribed</b>}
+    else {userStatus=<b className="text-red ">Not Subscribed Yet </b>}
+    let havePhoto = false;
+    if (user?.photo ==null) {havePhoto=false}
+    else {havePhoto=true}  
+    let address = "";
+    if (user?.address ==null) {address='-'}
+    else {address=user?.address}
+    let gender = "";  
+    if (user?.gender ==null) {gender='-'}
+    else {gender=user?.gender}    
+    let phone = "";
+    if (user?.phone ==null) {phone='-'}
+    else {phone=user?.phone}       
     return (
         <>
        <div className="container-fluid main-bg home-container">
@@ -41,25 +66,25 @@ export default function Profile() {
               <div className="col-1 ps-4">
               <img src={mail} alt="mail"/>
               </div>
-              <div className="col-11"><p className="info"><b>egigans@gmail.com</b></p>
+              <div className="col-11"><p className="info"><b>{user?.email}</b></p>
               <span className="info-ext text-grey">Email</span>
               </div>
               </div>
               <div className="row px-3 py-3">
               <div className="col-1 ps-4">
-              <img src={gender} alt="gender"/>
+              <img src={genderIco} alt="gender"/>
               </div>
               <div className="col-11">
-                <p className="info"><b>Male</b></p>
+                <p className="info"><b>{gender}</b></p>
                 <span className="info-ext text-grey">Gender</span>
               </div>
               </div>
               <div className="row px-3 py-3">
               <div className="col-1 ps-4">
-              <img src={phone} alt="phone"/>
+              <img src={phoneIco} alt="phone"/>
               </div>
               <div className="col-11">
-                <p className="info"><b>0812-8623-8911</b></p>
+                <p className="info"><b>{phone}</b></p>
                 <span className="info-ext text-grey">Phone</span>
               </div>
               </div>
@@ -68,14 +93,18 @@ export default function Profile() {
               <img src={place} alt="place"/>
               </div>
               <div className="col-11">
-                <p className="info"><b>Perumahan Permata Bintaro Residence C-3</b></p>
+                <p className="info"><b>{address}</b></p>
                 <span className="info-ext text-grey">Address</span>
               </div>
               </div>
           </div>
           <div className="col-3 px-3 py-3 text-center">
-            <img src={UserImage} alt="user" />
-            <button className ="mt-3 btn bg-red text-light btn-lg px-4 fs-6">Edit Profile</button>
+          { havePhoto ?
+            <img src={user?.photo} alt="user" width = "150px" height = "150px" /> :
+            <img src={UserImage} alt="user" width = "150px" height = "150px" />
+            }
+            <EditProfile/>
+            {/*<button className ="mt-3 btn bg-red text-light btn-lg px-4 fs-6">Edit Profile</button>*/}
           </div>
           </div>
           </div>

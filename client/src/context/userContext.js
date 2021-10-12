@@ -15,7 +15,8 @@ const reducer = (state, action) => {
         localStorage.setItem("token", payload.user.token);
             return {
                 isLogin: true,
-                user: payload
+                user: payload,
+                userName : payload.user.name,
             }
         case "LOGOUT":
         localStorage.removeItem("token");

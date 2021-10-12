@@ -21,11 +21,12 @@ module.exports = {
         type: Sequelize.TEXT
       },
       remainingActive: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue : 0
       },
       userStatus: {
         type: Sequelize.STRING,
-        defaultValue : 'Pending'
+        defaultValue : 'Inactive'
       },
       paymentStatus: {
         type: Sequelize.STRING,

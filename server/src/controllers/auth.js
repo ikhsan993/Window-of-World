@@ -113,12 +113,68 @@ try {
 			user : {
 				email : userExist.email,
 				role : userExist.role,
+				name : userExist.name,
+				id : userExist.id,
 				token, 
 			}
 			
 		},
 	});
 }
+// let dataUser = await user.findOne({
+//         attributes: {
+//         exclude: ['password', 'createdAt', 'updatedAt']
+//         },    
+//              include: [
+//         {
+//           model: profile,
+//           as: "profile",
+//           attributes: {
+//             exclude: ["createdAt", "updatedAt","password"]
+//           }
+//         },
+//         {  
+//           model: transaction,
+//           as: "transaction",
+//           attributes: {
+//             exclude: ["createdAt", "updatedAt","password"]
+//         }
+//         }
+//         ],
+//         where: {
+//                 id : userExist.id
+//             }
+
+//         });
+//         let photo="";
+//         let address="";
+//         let gender="";
+// 			if (dataUser.profile==null) {
+// 				photo = null;
+// 				address = null;
+// 				gender = null;
+// 			} else {
+// 				photo = process.env.FILE_PATH + dataUser.profile.photo;
+// 				address = dataUser.profile.gender;
+// 				gender = dataUser.profile.address;
+
+// 			}
+
+//         let userStatus = dataUser.transaction[0].userStatus;
+//         if (dataUser.transaction ==null){userStatus = null}
+//         res.send({
+//             status: 'success',
+//             data : {
+//                  name : dataUser.name,
+//                  email : dataUser.email,
+//                  role : dataUser.role,
+//                  photo,
+//                  gender,
+//                  address,
+//                  userStatus,
+//                  token,
+//             }
+//         })
 catch(error){
 		console.log(error);
 		res.status(500).send({

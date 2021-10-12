@@ -173,3 +173,9 @@ color: #D60000;
   margin-top: 1rem;
   width: 100%;
 }
+.cursor-pointer{
+  cursor: pointer;
+}
+.none {
+  display: none;
+}
