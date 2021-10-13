@@ -24,7 +24,7 @@ export default function Transaction() {
         history.push("/")
     }
 
-  let { data: subscribes} = useQuery("subscribesCache", async () => {
+  let { data: subscribes, refetch} = useQuery("subscribesCache", async () => {
   const config = {
     method: "GET",
     headers: {
@@ -34,6 +34,7 @@ export default function Transaction() {
   const response = await api.get("/subscribes", config);
   return response.data;
 });
+refetch();
 let addBook = ()=>{
     history.push("/add-book")
 }
@@ -75,7 +76,7 @@ let addBook = ()=>{
   </thead>
   <tbody>
  {subscribes?.map((item, index) => (
-  <SubscribeRow item={item} idx={index} />
+  <SubscribeRow item={item} key={item.id} idx={index} />
   ))}
   </tbody>
 </table>

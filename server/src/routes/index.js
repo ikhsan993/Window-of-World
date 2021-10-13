@@ -44,7 +44,7 @@ router.delete('/book-list/:id',auth, deleteBookList)
 router.post('/subscribe',auth,uploadFile('transferProof'), addSubscribe)
 router.get('/subscribes',auth, getSubscribes)
 router.get('/subscribe',auth, getSubscribe)
-router.patch('/subscribe/:id',auth, updateSubscribe)
+router.patch('/subscribe',auth, updateSubscribe)
 
 // register
 

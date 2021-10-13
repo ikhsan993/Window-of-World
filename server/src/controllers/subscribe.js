@@ -40,7 +40,7 @@ exports.getSubscribes = async (req, res) => {
           },
         },
         attributes: {
-        exclude: ["createdAt", "updatedAt","id"]
+        exclude: ["createdAt", "updatedAt"]
       },
     });
     data = JSON.parse(JSON.stringify(data));
@@ -50,6 +50,8 @@ exports.getSubscribes = async (req, res) => {
             remainingActive : item.remainingActive,
             userStatus :  item.userStatus,
             paymentStatus : item.paymentStatus,
+            id : item.id,
+            userId : item.user.id
             };
     });
         res.send({
@@ -96,18 +98,15 @@ exports.getSubscribe = async (req, res) => {
 exports.updateSubscribe = async (req, res) => {
 
     try {
-        const { id } = req.params
-        await transaction.update(req.body, {
-            where: {
-             id
-            }
-        })
         const data = req.body;
-        const user = req.user.id;
+        const id = data.id;
+        await transaction.update({...data}, {
+        where : {id}
+        })
         res.send({
             status: 'success',
             message: `Subscribe data Updated`,
-            data: {id,user,data}
+            data
         })
     } catch (error) {
         console.log(error)
@@ -117,3 +116,29 @@ exports.updateSubscribe = async (req, res) => {
         })
     }
 }
+// exports.updateProfile = async (req, res) => {
+//     try {
+//         const id = req.user.id
+//         const photo = req.file.filename;
+//         const data = req.body;
+//         const updatedData = {...data,photo}
+//         await profile.update({...data,photo}, {
+//             where : {userId : id}
+//         })
+//         res.send({
+//             status: 'success',
+//             message: 'Profile data Updated',
+//             data :{
+//             profile :{
+//               data
+//             },
+//             }
+//         })
+//     } catch (error) {
+//         console.log(error)
+//         res.send({
+//             status: 'failed',
+//             message: 'Server Error'
+//         })
+//     }
+// }
