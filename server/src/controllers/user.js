@@ -64,26 +64,11 @@ exports.getUser = async (req, res) => {
           as: "transaction",
           attributes: {
             exclude: ["createdAt", "updatedAt","password"]
-        }
-        }
-        ]
-
+        }}]
         });
         let photo="";
-        let address="";
-        let gender="";
-        let phone="";
-         if (dataUser.profile==null) {
-             photo = null;
-             address = null;
-             gender = null;
-             phone = null;
-         } else {
-             photo = process.env.FILE_PATH + dataUser.profile.photo;
-             address = dataUser.profile.address;
-             gender = dataUser.profile.gender;
-             phone = dataUser.profile.phone;
-         }
+         if (dataUser.profile.photo==null) {photo = null;}
+         else {photo = process.env.FILE_PATH + dataUser.profile.photo;}
 
         let userStatus="";
         if (dataUser.transaction ==""){userStatus = "Inactive"}
@@ -94,11 +79,12 @@ exports.getUser = async (req, res) => {
                  name : dataUser.name,
                  email : dataUser.email,
                  role : dataUser.role,
+                 gender : dataUser.profile.gender,
+                 address : dataUser.profile.address,
+                 phone : dataUser.profile.phone,
                  photo,
-                 gender,
-                 address,
-                 phone,
-                 userStatus,
+                 userStatus
+
             }
         })
     } catch (error) {

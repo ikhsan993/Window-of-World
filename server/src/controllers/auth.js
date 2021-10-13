@@ -1,4 +1,4 @@
-const {user} = require('../../models');
+const {user,profile} = require('../../models');
 const Joi = require ('joi');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
@@ -48,6 +48,9 @@ exports.register = async (req,res)=> {
 			exclude:['createdAt','updatedAt'],
 		}
 		});
+		await profile.create({
+    	userId:getUser.id
+    })
 		const dataToken = {
 		id : getUser.id
 		}

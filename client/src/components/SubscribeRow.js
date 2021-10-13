@@ -1,4 +1,5 @@
 import React from 'react'
+import Dropdown from 'react-bootstrap/Dropdown';
 import triangle from '../assets/img/triangle.png';
 
 export default function SubscribeRow({ item,idx }) {
@@ -20,7 +21,16 @@ let paymentStatusClass = "";
       <td>{item.remainingActive} Days</td>
       <td className ={userStatusClass}>{item.userStatus}</td>
       <td className={paymentStatusClass}>{item.paymentStatus}</td>
-      <td className="text-center"><img src={triangle}/> </td>
+      <td className="text-center"><img />
+      <Dropdown>
+                    <Dropdown.Toggle id="dropdown-basic" className="noborder">
+                        <img className="dropdown-toggle " src={triangle} alt="" />
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        <Dropdown.Item className="link text-success" onClick=""> Approved </Dropdown.Item>
+                        <Dropdown.Item className="link text-danger" onClick=""> Cancel</Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown></td>
     </tr> 
         </>
     )

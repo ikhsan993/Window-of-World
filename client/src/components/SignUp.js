@@ -47,7 +47,6 @@ function SignUp() {
 
       // Insert data user to database
       const response = await api.post("/register", config);
-
       console.log(response);
 
       // Notification

@@ -17,7 +17,6 @@ const [show, setShow] = useState(false);
 const handleClose = () => setShow(false);
 const handleShow = () => setShow(true);
 let api = API();
-  id = parseInt(id)
   // Fetching book data from database
   let { data: book, refetch } = useQuery("bookCache", async () => {
     const config = {

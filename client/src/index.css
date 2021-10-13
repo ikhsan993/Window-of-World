@@ -8,7 +8,9 @@ body {
   overflow-x: hidden;
 }
 /* background, teks & font */
-.dropdown-toggle {background:#E5E5E5!important;}
+.dropdown-toggle {background-color:inherit!important;}
+
+.transparent {background-color: transparent!important;}
 .text-red{color:#D60000!important;}
 .text-grey{color: #929292;}
 .bold{font-weight: 900;}

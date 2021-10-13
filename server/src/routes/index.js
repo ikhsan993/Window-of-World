@@ -7,7 +7,7 @@ const { addUsers, getUsers, getUser, updateUser, deleteUser } = require('../cont
 const { addBook, getBooks, getBook, updateBook, deleteBook } = require('../controllers/book')
 const { addBookList,getBookList,deleteBookList } = require('../controllers/bookList')
 const { addSubscribe,getSubscribe,getSubscribes,updateSubscribe } = require('../controllers/subscribe')
-const { addProfile } = require('../controllers/profile')
+const { addProfile,updateProfile,getProfile } = require('../controllers/profile')
 const {register,login} = require('../controllers/auth')
 
 // Middlewares
@@ -22,7 +22,11 @@ router.get('/users',auth, getUsers)
 router.get('/user',auth, getUser)
 router.patch('/user/:id',auth, updateUser)
 router.delete('/user/:id',auth, deleteUser)
-router.post('/profile',auth,uploadFile('photo'), addProfile)
+
+//Profile 
+router.post('/profile', addProfile)
+router.patch('/profile',auth,uploadFile('photo'), updateProfile)
+router.get('/profile',auth,getProfile)
 
 //book 
 router.post('/book',auth,uploadFile('cover'), addBook)
