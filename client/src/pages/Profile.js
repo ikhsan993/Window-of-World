@@ -23,7 +23,6 @@ export default function Profile() {
     },
   };
 const response = await api.get("/book-list", config);
-console.log(response.data)
   return response.data;
 });
   let { data: user} = useQuery("userCache", async () => {

@@ -42,7 +42,6 @@ function SignIn() {
         };
         const response = await api.post("/login", config);
         if(response.status == 'success'){
-
           dispatch({
             type : 'LOGIN_SUCCESS',
             payload : response.data,

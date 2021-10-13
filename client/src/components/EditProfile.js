@@ -66,7 +66,7 @@ function EditProfile() {
       <Modal show={show} onHide={handleClose}>
           <div className="container mb-3 px-5">
           <form onSubmit={(e) => handleSubmit.mutate(e)}>
-             <h1 className="my-4 mx-2"> Sign In </h1>
+             <h1 className="my-4 mx-2 "> Edit Profile </h1>
               <input type="number" placeholder="Phone Number" name="phone" onChange={handleChange}  className="mb-4 fs-6 form-control bg-grey" />
               <input type="text" placeholder="Gender" name="gender" onChange={handleChange}  className="mb-4 fs-6 form-control bg-grey" />
               <input type="text" placeholder="Address" name="address" onChange={handleChange}  className="mb-4 fs-6 form-control bg-grey" />

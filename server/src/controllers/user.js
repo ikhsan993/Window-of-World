@@ -68,7 +68,6 @@ exports.getUser = async (req, res) => {
         }
         ]
 
-
         });
         let photo="";
         let address="";
@@ -86,8 +85,9 @@ exports.getUser = async (req, res) => {
              phone = dataUser.profile.phone;
          }
 
-        let userStatus = dataUser.transaction[0].userStatus;
-        if (dataUser.transaction ==null){userStatus = null}
+        let userStatus="";
+        if (dataUser.transaction ==""){userStatus = "Inactive"}
+        else {userStatus = dataUser.transaction[0].userStatus}
         res.send({
             status: 'success',
             data : {
@@ -98,7 +98,7 @@ exports.getUser = async (req, res) => {
                  gender,
                  address,
                  phone,
-                 userStatus
+                 userStatus,
             }
         })
     } catch (error) {
@@ -119,7 +119,6 @@ exports.updateUser = async (req, res) => {
                 id
             }
         })
-
         res.send({
             status: 'success',
             message: `Update user id: ${id} finished`,

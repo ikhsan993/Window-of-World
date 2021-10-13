@@ -69,12 +69,14 @@ export default function AddBook() {
 
     const logout = (e) => {
     e.preventDefault();
-    console.log(state)
     dispatch({
         type: "LOGOUT"
         })
         // history.push("/")
     }
+    let transaction = ()=>{
+    history.push("/transaction")
+}
     return (
         <>
          <div className="container-fluid main-bg home-container">
@@ -89,7 +91,7 @@ export default function AddBook() {
                         <img className="dropdown-toggle " src={UserImage} alt="WoW" width="40px" />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item className="link"> <Link to="/transaction">Transaction</Link></Dropdown.Item>
+                        <Dropdown.Item className="link" onClick={transaction}>Transaction</Dropdown.Item>
                         <Dropdown.Item className="link" onClick={logout}>Logout</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>

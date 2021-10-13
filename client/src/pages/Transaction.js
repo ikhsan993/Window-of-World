@@ -18,13 +18,11 @@ export default function Transaction() {
     let history = useHistory()
     const logout = (e) => {
     e.preventDefault();
-    console.log(state)
     dispatch({
         type: "LOGOUT"
         })
         history.push("/")
     }
-
 
   let { data: subscribes} = useQuery("subscribesCache", async () => {
   const config = {
@@ -35,7 +33,11 @@ export default function Transaction() {
   };
   const response = await api.get("/subscribes", config);
   return response.data;
-});  
+});
+let addBook = ()=>{
+    history.push("/add-book")
+}
+
     return (
         <>
          <div className="container-fluid main-bg home-container">
@@ -50,7 +52,7 @@ export default function Transaction() {
                         <img className="dropdown-toggle " src={UserImage} alt="WoW" width="40px" />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item className="link"> <Link to="/add-book">Add Book</Link></Dropdown.Item>
+                        <Dropdown.Item className="link" onClick={addBook}> Add Book </Dropdown.Item>
                         <Dropdown.Item className="link" onClick={logout}>Logout</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
@@ -73,7 +75,7 @@ export default function Transaction() {
   </thead>
   <tbody>
  {subscribes?.map((item, index) => (
-  <SubscribeRow item={item} key={index} />
+  <SubscribeRow item={item} idx={index} />
   ))}
   </tbody>
 </table>

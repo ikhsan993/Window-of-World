@@ -4,16 +4,20 @@ import { useParams, useHistory } from "react-router-dom";
 import Sidebar from '../components/Sidebar';
 import { API } from "../config/api";
 import { useQuery,useMutation } from "react-query";
+import {Modal} from 'react-bootstrap';
 // Assets
 import book1 from '../assets/img/book1.png'
 import ribbon from '../assets/img/ribbon.png'
 import v1 from '../assets/img/V.png'
 
 const DetailBook = () => {
-  let history = useHistory();
-  let { id } = useParams();
-  let api = API();
-
+let history = useHistory();
+let { id } = useParams();
+const [show, setShow] = useState(false);
+const handleClose = () => setShow(false);
+const handleShow = () => setShow(true);
+let api = API();
+  id = parseInt(id)
   // Fetching book data from database
   let { data: book, refetch } = useQuery("bookCache", async () => {
     const config = {
@@ -25,35 +29,30 @@ const DetailBook = () => {
     const response = await api.get("/book/" + id, config);
     return response.data.book;
   });
-const [form,setForm] = useState({
-        bookId : id,
-    });
-    const handleChange = (e)=> {
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value, 
-        });
-    };
-    const handleSubmit = useMutation(async (e)=>{
-        try {
+ 
+  const handleSubmit = useMutation(async (e) => {
+    try {
+      e.preventDefault();
 
-            e.preventDefault();
-            // console.log(form.cover.name)
-            const formData = new FormData();
-            formData.set('bookId', form.bookId);
-            const config = {
-                method : 'POST',
-                headers : {
-                    Authorization : "Basic " + localStorage.token
-                },
-                body : formData,
-            };
-            const response = await api.post('/book-list', config);
-            console.log(response);
-        } catch(error){
-            console.log(error)
-        }
-    });
+      const body = (JSON.stringify({bookId : id}));
+      
+      // Configuration Content-type
+      const config = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + localStorage.token,
+        },
+        body: body,
+      };
+
+      // Insert data user to database
+      const response = await api.post("/book-list", config);
+      handleShow();
+    } catch (error) {
+      console.log(error);
+    }
+  });
   return (
     <>
     <div className="container-fluid main-bg home-container">
@@ -76,21 +75,24 @@ const [form,setForm] = useState({
               <p className="text-grey py-1">{book?.isbn}</p>
           </div>
           </div>
+              <Modal show={show} onHide={handleClose}>
+                <div className="container mb-3 py-3 px-5 text-success">
+                Book added to list successfully
+                </div>
+                </Modal>
           <div className='row mt-5'>
           <h4><b>About This Book</b></h4>
           <p className="justify text-grey">
             {book?.about}
           </p>
           </div>
-            <form onSubmit={(e) => handleSubmit.mutate(e)}>
-            <input type="text" placeholder="bookId" className="none" value={id} name="bookId" onChange={handleChange}/>
+            <form >
           <div className='row mt-5'>
             <div className="col-6">
             </div>
             <div className="col-6 float-right">
               <div className="row px-5"> 
-
-              <div className="col-6"> <button className ="signUp">Add to My List &nbsp; <img src={ribbon} alt="ribbon" /></button></div>
+              <div className="col-6"> <button className ="signUp" onClick={(e) => handleSubmit.mutate(e)}>Add to My List &nbsp; <img src={ribbon} alt="ribbon" /></button></div>
               <div className="col-6"><button className ="signIn ms-3">Read Book &nbsp; <img src={v1} alt="V" /></button></div>
                </div>
              

@@ -38,7 +38,7 @@ if (user?.userStatus =="Active") {isActive=true}
                     <div className="mb-3 py-3 px-5 text-red">
                     please make a payment to read the latest books
                     </div>
-                    </Modal>
+                </Modal>
                 <img className="card-img-top" src={item.cover} alt="Card image cap" height="300px"/>
                 <div className="card-body">
                     <p className="card-text"><b>{item.title}</b></p>

@@ -12,11 +12,11 @@ const reducer = (state, action) => {
 
     switch (type) {
         case "LOGIN_SUCCESS":
-        localStorage.setItem("token", payload.user.token);
+        localStorage.setItem("token", payload.token);
             return {
                 isLogin: true,
                 user: payload,
-                userName : payload.user.name,
+                userName : payload.name,
             }
         case "LOGOUT":
         localStorage.removeItem("token");

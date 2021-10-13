@@ -37,14 +37,18 @@ const logout = (e) => {
     let photo = "";
     if (user?.photo ==null) {photo=UserImage}
     else {photo=user?.photo}    
+const home = ()=>{
+  history.push('/home')
+}
+
     return (
         <>
-            <div className="col-3 px-3">
-            <div className="logo mt-4 text-center">
-           <img src={Icon} alt="WoW" width="80px" className="rotate" />
+           <div className="col-3 px-3">
+           <div className="logo mt-4 text-center">
+           <img src={Icon} onClick={home} alt="WoW" width="80px" className="rotate cursor-pointer" />
            </div>
            <div className="user-image mt-4 text-center">
-           <img src={photo} alt="WoW" width="80px" />
+           <img src={photo} alt="WoW" width="80px" height = "80px" />
            </div>
            <div className="user text-center">
            <p className="mt-2 fs-4s bold">{user?.name}</p>

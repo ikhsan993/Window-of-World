@@ -9,27 +9,36 @@ exports.register = async (req,res)=> {
     name: Joi.string().min(3).required(),
     email: Joi.string().email().min(6).required(),
     password: Joi.string().min(6).required(),
-    role : Joi.string().required(),
   });
 
   const { error } = schema.validate(req.body);
 
   if (error)
     return res.status(400).send({
-      error: {
         message: error.details[0].message,
-      },
     });
 
   try {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
+    const email = req.body.email;
+    const userExist = await user.findOne({
+    		where : {
+			email
+		}
+    });
+    if (userExist){
+    	res.status(500).send({
+      status: "failed",
+      message: "Email already exist",
+    });
+    }
+    else {
     const newUser = await user.create({
       name: req.body.name,
       email: req.body.email,
       password: hashedPassword,
-      role : req.body.role,
+      role : 'user',
     });
 		const getUser = await user.findOne({
 		where : {
@@ -45,15 +54,15 @@ exports.register = async (req,res)=> {
 		const token = jwt.sign(dataToken, process.env.SECRET_KEY);
 
     res.status(200).send({
-      status: "success...",
+      status: "success",
       data: {
       	user :{
       		email: newUser.email,
         token   
       	}
-        
       },
     });
+  }
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -110,14 +119,11 @@ try {
 	res.status(200).send({
 			status :'success',
 			data : {
-			user : {
 				email : userExist.email,
 				role : userExist.role,
 				name : userExist.name,
 				id : userExist.id,
-				token, 
-			}
-			
+				token, 	
 		},
 	});
 }

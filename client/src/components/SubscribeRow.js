@@ -1,7 +1,7 @@
 import React from 'react'
 import triangle from '../assets/img/triangle.png';
 
-export default function SubscribeRow({ item }) {
+export default function SubscribeRow({ item,idx }) {
 
 let userStatusClass = "";
     if (item.userStatus ==='Active') {userStatusClass="text-success"}
@@ -14,7 +14,7 @@ let paymentStatusClass = "";
     return (
         <>
   <tr>
-      <th scope="row">1</th>
+      <th scope="row">{idx+1}</th>
       <td>{item.name}</td>
       <td><img src ={item.transferProof} width ="100px"/></td>
       <td>{item.remainingActive} Days</td>
