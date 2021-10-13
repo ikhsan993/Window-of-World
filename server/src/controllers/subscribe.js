@@ -116,29 +116,3 @@ exports.updateSubscribe = async (req, res) => {
         })
     }
 }
-// exports.updateProfile = async (req, res) => {
-//     try {
-//         const id = req.user.id
-//         const photo = req.file.filename;
-//         const data = req.body;
-//         const updatedData = {...data,photo}
-//         await profile.update({...data,photo}, {
-//             where : {userId : id}
-//         })
-//         res.send({
-//             status: 'success',
-//             message: 'Profile data Updated',
-//             data :{
-//             profile :{
-//               data
-//             },
-//             }
-//         })
-//     } catch (error) {
-//         console.log(error)
-//         res.send({
-//             status: 'failed',
-//             message: 'Server Error'
-//         })
-//     }
-// }
