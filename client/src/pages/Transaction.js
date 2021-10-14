@@ -35,8 +35,8 @@ export default function Transaction() {
   return response.data;
 });
 refetch();
-let addBook = ()=>{
-    history.push("/add-book")
+let bookAdmin = ()=>{
+    history.push("/book-admin")
 }
 
     return (
@@ -53,7 +53,7 @@ let addBook = ()=>{
                         <img className="dropdown-toggle " src={UserImage} alt="WoW" width="40px" />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item className="link" onClick={addBook}> Add Book </Dropdown.Item>
+                        <Dropdown.Item className="link" onClick={bookAdmin}> Book </Dropdown.Item>
                         <Dropdown.Item className="link" onClick={logout}>Logout</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>

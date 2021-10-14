@@ -9,6 +9,8 @@ import { BrowserRouter as Router, Route, Switch,Link} from "react-router-dom";
 import PrivateRoute from './components/PrivateRoute';
 import Subscribe from './pages/Subscribe';
 import AddBook from './pages/AddBook';
+import AdminDashBoard from './pages/AdminDashBoard';
+import DetailBookAdmin from './pages/DetailBookAdmin';
 import ReadBook from './pages/ReadBook';
 import Transaction from './pages/Transaction';
 
@@ -23,6 +25,8 @@ export default function App() {
             <PrivateRoute path="/profile" component={Profile} />
             <PrivateRoute path="/subscribe" component={Subscribe} />
             <PrivateRoute path="/add-book" component={AddBook} />
+            <PrivateRoute path="/book-admin" component={AdminDashBoard} />
+            <PrivateRoute path="/detail-book-admin/:id" component={DetailBookAdmin} />
             <PrivateRoute path="/transaction" component={Transaction} />
             <PrivateRoute path="/read" component={ReadBook} />
             <PrivateRoute path="/book-detail/:id" component={DetailBook} />
