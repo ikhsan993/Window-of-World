@@ -1,5 +1,6 @@
 const multer = require('multer');
-exports.uploadBookFile = (bookFile) => {
+
+exports.uploadBookFile = (epubFile) => {
 	const storage = multer.diskStorage({
 		destination : function (req,file,cb) {
 			cb(null,"uploads")
@@ -10,8 +11,8 @@ exports.uploadBookFile = (bookFile) => {
 	});
 
 	const fileFilter = function (req,file,cb){
-		if (file.filename === bookFile) {
-			if (!file.originalname.match(/\.(epub|EPUB)$/)) {
+		if (file.filename === epubFile) {
+			if (!file.originalname.match(/\.(epub|EPUB|Epub)$/)) {
 				req.fileValidationError = {
 					message : 'Only Accept Epub Files! '
 				}
@@ -28,7 +29,7 @@ exports.uploadBookFile = (bookFile) => {
 		limits : {
 			fileSize : maxSize, 
 		},
-	});
+	}).single(epubFile);
 	return (req,res,next) =>{
 		upload(req,res, function(err){
 			if (req.fileValidationError) {
@@ -51,3 +52,4 @@ exports.uploadBookFile = (bookFile) => {
 		});
 	};
 };
+

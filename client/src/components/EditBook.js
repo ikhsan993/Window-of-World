@@ -87,9 +87,7 @@ function EditBook() {
         body: formData,
       };
 
-      // Insert product data
       const response = await api.patch("/book/" + id, config);
-      console.log(response)
     } catch (error) {
       console.log(error);
     }

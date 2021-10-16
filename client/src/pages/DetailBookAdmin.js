@@ -6,6 +6,7 @@ import { API } from "../config/api";
 import { useQuery,useMutation } from "react-query";
 import {Modal} from 'react-bootstrap';
 import EditBook from '../components/EditBook';
+import UploadBookFile from '../components/UploadBookFile'
 import Dropdown from 'react-bootstrap/Dropdown';
 import { UserContext } from "../context/userContext";
 
@@ -36,7 +37,7 @@ let bookAdmin = ()=>{
     }
 
   // Fetching book data from database
-  let { data: book } = useQuery("bookCache", async () => {
+  let { data: book, refetch } = useQuery("bookCache", async () => {
     const config = {
       method: "GET",
       headers: {
@@ -45,8 +46,9 @@ let bookAdmin = ()=>{
     };
     const response = await api.get("/book/" + id, config);
     return response.data.book;
+      // refetch();
   });
-  
+
   return (
     <>
     <div className="container-fluid main-bg home-container">
@@ -84,7 +86,7 @@ let bookAdmin = ()=>{
               <b className="text-red">ISBN</b>
               <p className="text-grey py-1">{book?.isbn}</p>
               <div className="row">
-            <div className="col-4"><button className ="btn btn-secondary px-3 py-2">Upload File</button></div>
+              <UploadBookFile/>
               <EditBook/>
               <div className="col-4"><button className ="btn btn-danger px-3 py-2">Delete Book</button></div>
               </div>
