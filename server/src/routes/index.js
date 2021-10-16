@@ -9,7 +9,7 @@ const { addBookList,getBookList,deleteBookList } = require('../controllers/bookL
 const { addSubscribe,getSubscribe,getSubscribes,updateSubscribe } = require('../controllers/subscribe')
 const { addProfile,updateProfile,getProfile } = require('../controllers/profile')
 const { updateBookFile } = require('../controllers/bookFile')
-const {register,login} = require('../controllers/auth')
+const {register,login,checkAuth} = require('../controllers/auth')
 
 // Middlewares
 const {auth} = require('../middlewares/auth');
@@ -52,5 +52,6 @@ router.patch('/subscribe',auth, updateSubscribe)
 
 router.post('/register', register)
 router.post('/login', login)
+router.get("/check-auth", auth, checkAuth);
 
 module.exports = router
