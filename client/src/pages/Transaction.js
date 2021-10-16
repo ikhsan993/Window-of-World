@@ -38,6 +38,9 @@ refetch();
 let bookAdmin = ()=>{
     history.push("/book-admin")
 }
+    let addBook = ()=>{
+    history.push("/add-book")
+}
 
     return (
         <>
@@ -53,7 +56,8 @@ let bookAdmin = ()=>{
                         <img className="dropdown-toggle " src={UserImage} alt="WoW" width="40px" />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item className="link" onClick={bookAdmin}> Book </Dropdown.Item>
+                        <Dropdown.Item className="link" onClick={addBook}> Add Book </Dropdown.Item>
+                        <Dropdown.Item className="link" onClick={bookAdmin}> Books </Dropdown.Item>
                         <Dropdown.Item className="link" onClick={logout}>Logout</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>

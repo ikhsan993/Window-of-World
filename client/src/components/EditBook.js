@@ -19,29 +19,34 @@ function EditBook() {
   let api = API();
   const { id } = useParams();
   const [preview, setPreview] = useState(null); 
-  const [profile, setProfile] = useState({}); 
+  const [book, setBook] = useState({}); 
   const [form, setForm] = useState({
-    photo: "",
-    phone: "",
-    gender: "",
-    address: "",
-  }); //Store product data
+    title: "",
+    author: "",
+    publicationDate: "",
+    pages: "",
+    isbn: "",
+    cover: "",
+    about: "",
+  }); 
 
-  // Fetching detail product data by id from database
-  let { profileRefetch } = useQuery("profileCache", async () => {
+  let { bookokRefetch } = useQuery("bookokCache", async () => {
     const config = {
       headers: {
         Authorization: "Basic " + localStorage.token,
       },
     };
-    const response = await api.get("/book/:" + id, config);
+    const response = await api.get("/book/" + id, config);
     setForm({
-      photo: response.data.photo,
-      phone: response.data.phone,
-      gender: response.data.gender,
-      address: response.data.address,
+      title: response.data.book.title,
+      author: response.data.book.author,
+      publicationDate: response.data.book.publicationDate,
+      pages: response.data.book.pages,
+      cover: response.data.book.cover,
+      about: response.data.book.about,
+      isbn: response.data.book.isbn,
     });
-    setProfile(response.data);
+    setBook(response.data.book);
   });
 
   // Handle change data on form
@@ -64,11 +69,14 @@ function EditBook() {
       // Store data with FormData as object
       const formData = new FormData();
       if (preview) {
-        formData.set("photo", preview[0], preview[0]?.name);
+        formData.set("cover", preview[0], preview[0]?.name);
       }
-      formData.set("phone", form.phone);
-      formData.set("gender", form.gender);
-      formData.set("address", form.address);
+      formData.set("title", form.title);
+      formData.set("author", form.author);
+      formData.set("publicationDate", form.publicationDate);
+      formData.set("pages", form.pages);
+      formData.set("about", form.about);
+      formData.set("isbn", form.isbn);
 
       // Configuration
       const config = {
@@ -80,7 +88,7 @@ function EditBook() {
       };
 
       // Insert product data
-      const response = await api.patch("/profile", config);
+      const response = await api.patch("/book/" + id, config);
       console.log(response)
     } catch (error) {
       console.log(error);
@@ -89,15 +97,17 @@ function EditBook() {
 
     return (
       <>
-      <div className="col-6"> <button className ="btn btn-warning px-4 py-2" onClick={handleShow}>Edit Book</button></div>
+      <div className="col-4"> <button className ="btn btn-warning px-3 py-2" onClick={handleShow}>Edit Book</button></div>
       <Modal show={show} onHide={handleClose}>
           <div className="container mb-3 px-5">
           <form onSubmit={(e) => handleSubmit.mutate(e)}>
-             <h1 className="my-4 mx-2 "> Edit Profile </h1>
-              <input type="number" placeholder="Phone Number" name="phone" value={form.phone} onChange={handleChange}  className="mb-4 fs-6 form-control bg-grey" />
-              <input type="text" placeholder="Gender" name="gender" value={form.gender}  onChange={handleChange}  className="mb-4 fs-6 form-control bg-grey" />
-              <input type="text" placeholder="Address" name="address" value={form.address}  onChange={handleChange}  className="mb-4 fs-6 form-control bg-grey" />
-              <input type="file" id="actual-btn" onChange={handleChange}  name="photo" hidden/>
+             <h1 className="my-4 mx-2 "> Edit Book </h1>
+              <input type="text" placeholder="Book Title" name="title" value={form.title} onChange={handleChange}  className="mb-4 fs-6 form-control bg-grey" />
+              <input type="text" placeholder="Book Author" name="author" value={form.author}  onChange={handleChange}  className="mb-4 fs-6 form-control bg-grey" />
+              <input type="number" placeholder="ISBN" name="isbn" value={form.isbn}  onChange={handleChange}  className="mb-4 fs-6 form-control bg-grey" />
+              <input type="number" placeholder="Pages" name="pages" value={form.pages}  onChange={handleChange}  className="mb-4 fs-6 form-control bg-grey" />
+              <input type="date" placeholder="Publication Date" name="publicationDate" value={form.publicationDate}  onChange={handleChange}  className="mb-4 fs-6 form-control bg-grey" />
+              <input type="file" id="actual-btn" onChange={handleChange}  name="cover" hidden/>
               <label className="text-333" htmlFor="actual-btn">
               <span className="row">
                     <span className="col-10 bold"> Attach Profile Picture &nbsp;</span>
@@ -107,7 +117,7 @@ function EditBook() {
              {!preview ? (
                 <div>
                   <img
-                    src={form.photo}
+                    src={form.cover}
                     style={{
                       maxWidth: "250px",
                       maxHeight: "250px",
@@ -131,7 +141,7 @@ function EditBook() {
                   />
                 </div>
               )}
-              <button className="login-btn py-3 mt-4 rounded-3">Edit Profile</button>
+              <button className="login-btn py-3 mt-4 rounded-3">Update Book</button>
            </form>   
           </div>
       </Modal>

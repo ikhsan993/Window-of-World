@@ -36,7 +36,7 @@ let bookAdmin = ()=>{
     }
 
   // Fetching book data from database
-  let { data: book, refetch } = useQuery("bookCache", async () => {
+  let { data: book } = useQuery("bookCache", async () => {
     const config = {
       method: "GET",
       headers: {
@@ -83,6 +83,11 @@ let bookAdmin = ()=>{
               <p className="text-grey py-1">{book?.pages}</p>
               <b className="text-red">ISBN</b>
               <p className="text-grey py-1">{book?.isbn}</p>
+              <div className="row">
+            <div className="col-4"><button className ="btn btn-secondary px-3 py-2">Upload File</button></div>
+              <EditBook/>
+              <div className="col-4"><button className ="btn btn-danger px-3 py-2">Delete Book</button></div>
+              </div>
           </div>
           </div>
               <Modal show={show} onHide={handleClose}>
@@ -97,14 +102,10 @@ let bookAdmin = ()=>{
           </p>
           </div>
           <div className='row mt-5'>
-            <div className="col-6">
-            </div>
-            <div className="col-6 float-right">
-              <div className="row px-5"> 
-              <EditBook/>
-              <div className="col-6"><button className ="btn btn-danger px-4 py-2">Delete Book</button></div>
-               </div>             
-          </div>
+          <div className= 'col-5 ms-auto'></div>
+          <div className="col-7 float-right">
+          
+              </div>
 </div>
       </div>
   </div>  

@@ -36,6 +36,9 @@ export default function AdminDashboard() {
     let transaction = ()=>{
     history.push("/transaction")
 }
+    let addBook = ()=>{
+    history.push("/add-book")
+}
     return (
         <>
          <div className="container-fluid main-bg home-container">
@@ -50,6 +53,7 @@ export default function AdminDashboard() {
                         <img className="dropdown-toggle " src={UserImage} alt="WoW" width="40px" />
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
+                        <Dropdown.Item className="link" onClick={addBook}> Add Book </Dropdown.Item>
                         <Dropdown.Item className="link" onClick={transaction}> Transaction </Dropdown.Item>
                         <Dropdown.Item className="link" onClick={logout}>Logout</Dropdown.Item>
                       </Dropdown.Menu>
