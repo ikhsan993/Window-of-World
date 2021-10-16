@@ -1,15 +1,20 @@
 // React components
-import { useEffect, useState } from "react";
+import {React,useState,useContext }from 'react';
 import { useParams, useHistory } from "react-router-dom";
 import Sidebar from '../components/Sidebar';
 import { API } from "../config/api";
 import { useQuery,useMutation } from "react-query";
 import {Modal} from 'react-bootstrap';
 import EditBook from '../components/EditBook';
+import Dropdown from 'react-bootstrap/Dropdown';
+import { UserContext } from "../context/userContext";
+
 // Assets
 import book1 from '../assets/img/book1.png'
 import ribbon from '../assets/img/ribbon.png'
 import v1 from '../assets/img/V.png'
+import Icon from '../assets/img/Icon.png';
+import UserImage from '../assets/img/user.jpg'
 
 const DetailBook = () => {
 let history = useHistory();
@@ -18,6 +23,18 @@ const [show, setShow] = useState(false);
 const handleClose = () => setShow(false);
 const handleShow = () => setShow(true);
 let api = API();
+let bookAdmin = ()=>{
+    history.push("/book-admin")
+}
+    const [state, dispatch] = useContext(UserContext)
+    const logout = (e) => {
+    e.preventDefault();
+    dispatch({
+        type: "LOGOUT"
+        })
+        history.push("/")
+    }
+
   // Fetching book data from database
   let { data: book, refetch } = useQuery("bookCache", async () => {
     const config = {
@@ -29,36 +46,29 @@ let api = API();
     const response = await api.get("/book/" + id, config);
     return response.data.book;
   });
- 
-  const handleSubmit = useMutation(async (e) => {
-    try {
-      e.preventDefault();
-
-      const body = (JSON.stringify({bookId : id}));
-      
-      // Configuration Content-type
-      const config = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + localStorage.token,
-        },
-        body: body,
-      };
-
-      // Insert data user to database
-      const response = await api.post("/book-list", config);
-      handleShow();
-    } catch (error) {
-      console.log(error);
-    }
-  });
+  
   return (
     <>
     <div className="container-fluid main-bg home-container">
         <div className="row px-2 py-5">
-  <Sidebar/>
-  <div className="col-9 pe-5">
+              <div className="row px-5">
+                  <div className="col-1 px-5 mt-5">
+                <img src={Icon} alt="" width="80px" className="rotate" />
+                  </div>
+                  <div className="col-9"></div>
+            <div className="col-1 px-5 mx-5 mt-5 user-image">
+             <Dropdown>
+                    <Dropdown.Toggle id="dropdown-basic" className="noborder">
+                        <img className="dropdown-toggle " src={UserImage} alt="WoW" width="40px" />
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        <Dropdown.Item className="link" onClick={bookAdmin}> Book </Dropdown.Item>
+                        <Dropdown.Item className="link" onClick={logout}>Logout</Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
+            </div>
+          </div>
+  <div className="col-9 pe-5 mx-auto">
       <div className="row  mt-5">
           <div className="row mt-3 ms-1">
           <div className="col-5">
@@ -86,18 +96,16 @@ let api = API();
             {book?.about}
           </p>
           </div>
-            <form >
           <div className='row mt-5'>
             <div className="col-6">
             </div>
             <div className="col-6 float-right">
               <div className="row px-5"> 
-              <div className="col-6"> <button className ="btn btn-warning px-4 py-2" >Edit Book</button></div>
+              <EditBook/>
               <div className="col-6"><button className ="btn btn-danger px-4 py-2">Delete Book</button></div>
                </div>             
           </div>
 </div>
- </form>
       </div>
   </div>  
         </div>

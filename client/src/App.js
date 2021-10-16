@@ -28,7 +28,7 @@ export default function App() {
             <PrivateRoute path="/book-admin" component={AdminDashBoard} />
             <PrivateRoute path="/detail-book-admin/:id" component={DetailBookAdmin} />
             <PrivateRoute path="/transaction" component={Transaction} />
-            <PrivateRoute path="/read" component={ReadBook} />
+            <PrivateRoute path="/read-book/:id" component={ReadBook} />
             <PrivateRoute path="/book-detail/:id" component={DetailBook} />
             <Route path="*" component={NotFound} />
         </Switch>

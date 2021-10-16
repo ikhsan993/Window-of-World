@@ -68,7 +68,8 @@ exports.getBook = async (req, res) => {
         })
         data = JSON.parse(JSON.stringify(data));  
         data = {...data,
-                cover : process.env.FILE_PATH + data.cover
+                cover : process.env.FILE_PATH + data.cover,
+                bookFile : process.env.FILE_PATH + data.bookFile,
             }
         res.send({
             status: 'success',

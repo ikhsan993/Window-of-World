@@ -1,7 +1,7 @@
 // React Component
 import {Modal} from 'react-bootstrap';
 import {React, useState,useContext } from 'react';
-import { useHistory } from "react-router-dom";
+import { useHistory,useParams } from "react-router-dom";
 import { UserContext } from "../context/userContext";
 import { useQuery,useMutation } from "react-query";
 import { API } from "../config/api";
@@ -17,6 +17,7 @@ function EditBook() {
   const handleShow = () => setShow(true);
   let history = useHistory();
   let api = API();
+  const { id } = useParams();
   const [preview, setPreview] = useState(null); 
   const [profile, setProfile] = useState({}); 
   const [form, setForm] = useState({
@@ -33,7 +34,7 @@ function EditBook() {
         Authorization: "Basic " + localStorage.token,
       },
     };
-    const response = await api.get("/profile", config);
+    const response = await api.get("/book/:" + id, config);
     setForm({
       photo: response.data.photo,
       phone: response.data.phone,
@@ -81,7 +82,6 @@ function EditBook() {
       // Insert product data
       const response = await api.patch("/profile", config);
       console.log(response)
-      history.push("/home");
     } catch (error) {
       console.log(error);
     }
@@ -89,7 +89,7 @@ function EditBook() {
 
     return (
       <>
-      <button className="mt-3 btn bg-red text-light btn-lg px-4 fs-6" onClick={handleShow}>Edit Profile</button>
+      <div className="col-6"> <button className ="btn btn-warning px-4 py-2" onClick={handleShow}>Edit Book</button></div>
       <Modal show={show} onHide={handleClose}>
           <div className="container mb-3 px-5">
           <form onSubmit={(e) => handleSubmit.mutate(e)}>
@@ -138,4 +138,4 @@ function EditBook() {
       </>
     );
   }
-export default EditProfile;
+export default EditBook;

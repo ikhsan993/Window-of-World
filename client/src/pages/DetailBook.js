@@ -17,6 +17,10 @@ const [show, setShow] = useState(false);
 const handleClose = () => setShow(false);
 const handleShow = () => setShow(true);
 let api = API();
+let readBook = ()=>{
+    history.push("/read-book/" + id)
+}
+
   // Fetching book data from database
   let { data: book, refetch } = useQuery("bookCache", async () => {
     const config = {
@@ -85,19 +89,21 @@ let api = API();
             {book?.about}
           </p>
           </div>
-            <form >
+            
           <div className='row mt-5'>
             <div className="col-6">
             </div>
             <div className="col-6 float-right">
               <div className="row px-5"> 
+              <form >
               <div className="col-6"> <button className ="signUp" onClick={(e) => handleSubmit.mutate(e)}>Add to My List &nbsp; <img src={ribbon} alt="ribbon" /></button></div>
-              <div className="col-6"><button className ="signIn ms-3">Read Book &nbsp; <img src={v1} alt="V" /></button></div>
+               </form>
+              <div className="col-6"><button className ="signIn ms-3" onClick={readBook}>Read Book &nbsp; <img src={v1} alt="V" /></button></div>
                </div>
              
           </div>
 </div>
- </form>
+
       </div>
   </div>  
         </div>
