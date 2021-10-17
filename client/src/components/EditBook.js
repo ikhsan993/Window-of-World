@@ -15,6 +15,9 @@ function EditBook() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const handleCloseSuccess = () => setShowSuccess(false);
+  const handleShowSuccess = () => setShowSuccess(true);
   let history = useHistory();
   let api = API();
   const { id } = useParams();
@@ -88,6 +91,7 @@ function EditBook() {
       };
 
       const response = await api.patch("/book/" + id, config);
+      handleShowSuccess();
     } catch (error) {
       console.log(error);
     }
@@ -105,6 +109,7 @@ function EditBook() {
               <input type="number" placeholder="ISBN" name="isbn" value={form.isbn}  onChange={handleChange}  className="mb-4 fs-6 form-control bg-grey" />
               <input type="number" placeholder="Pages" name="pages" value={form.pages}  onChange={handleChange}  className="mb-4 fs-6 form-control bg-grey" />
               <input type="date" placeholder="Publication Date" name="publicationDate" value={form.publicationDate}  onChange={handleChange}  className="mb-4 fs-6 form-control bg-grey" />
+              <textarea placeholder="About Book" name="about" value={form.about}  onChange={handleChange}  className="mb-4 fs-6 form-control bg-grey" />
               <input type="file" id="actual-btn" onChange={handleChange}  name="cover" hidden/>
               <label className="text-333" htmlFor="actual-btn">
               <span className="row">
@@ -141,6 +146,11 @@ function EditBook() {
               )}
               <button className="login-btn py-3 mt-4 rounded-3">Update Book</button>
            </form>   
+          </div>
+      </Modal>
+      <Modal show={showSuccess} onHide={handleCloseSuccess}>
+          <div className="container mb-3 py-3 px-5 text-success">
+                Update Book Data Success
           </div>
       </Modal>
       </>

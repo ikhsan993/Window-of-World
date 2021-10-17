@@ -42,7 +42,7 @@ function UploadBookFile() {
                 body : formData,
             };
             const response = await api.patch('/bookFile/' + id, config);
-
+            history.push('/book-admin')
         } catch(error){
             console.log(error)
         }
@@ -58,7 +58,7 @@ function UploadBookFile() {
               <input type="file" id="actual-btn" onChange={handleChange}  name="bookFile" hidden/>
               <label className="text-333" htmlFor="actual-btn">
               <span className="row">
-                    <span className="col-10 bold"> Attach Profile Picture &nbsp;</span>
+                    <span className="col-10 bold"> Attach Book File &nbsp;</span>
                     <span className="right col-2"> <img src={clip} alt="clip"  /></span>
               </span>
               </label>

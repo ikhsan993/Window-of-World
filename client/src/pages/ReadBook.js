@@ -32,16 +32,16 @@ const home = ()=>{
 
     return (
         <>
-         <div class="container-fluid main-bg home-container ">
-              <div class="row px-5 d-flex">
-                  <div class="col-1 px-5 mt-5">
+         <div className="container-fluid main-bg home-container ">
+              <div className="row px-5 d-flex">
+                  <div className="col-1 px-5 mt-5">
                 <img src={Icon} alt="" width="80px" className="rotate cursor-pointer" onClick={home} />
                   </div>
-                  <div class="col-9"></div>
+                  <div className="col-9"></div>
                   </div>
 
-                  <div class="row mt-5">
-                  {/*<div class="col-8 mt-5 ms-auto ">*/}
+                  <div className="row mt-5">
+                  {/*<div className="col-8 mt-5 ms-auto ">*/}
                   <div style={{ height: "100vh", position : "relative" }}>
                       <ReactReader
                       title={book?.title}

@@ -60,7 +60,7 @@ export default function AddBook() {
             };
             const response = await api.post('/book', config);
             // console.log (response);
-            history.push('/transaction');
+            history.push('/book-admin');
 
         } catch(error){
             console.log(error)

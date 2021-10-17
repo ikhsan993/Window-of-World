@@ -1,5 +1,5 @@
 // React components
-import {React,useState,useContext }from 'react';
+import {React,useState,useContext,useEffect }from 'react';
 import { useParams, useHistory } from "react-router-dom";
 import Sidebar from '../components/Sidebar';
 import { API } from "../config/api";
@@ -9,6 +9,7 @@ import EditBook from '../components/EditBook';
 import UploadBookFile from '../components/UploadBookFile'
 import Dropdown from 'react-bootstrap/Dropdown';
 import { UserContext } from "../context/userContext";
+import DeleteBook from "../components/DeleteBook";
 
 // Assets
 import book1 from '../assets/img/book1.png'
@@ -20,9 +21,14 @@ import UserImage from '../assets/img/user.jpg'
 const DetailBook = () => {
 let history = useHistory();
 let { id } = useParams();
+const [idDelete, setIdDelete] = useState(null);
+const [confirmDelete, setConfirmDelete] = useState(null);
 const [show, setShow] = useState(false);
 const handleClose = () => setShow(false);
 const handleShow = () => setShow(true);
+const [showDelete, setShowDelete] = useState(false);
+const handleCloseDelete = () => setShowDelete(false);
+const handleShowDelete = () => setShowDelete(true);
 let api = API();
 let bookAdmin = ()=>{
     history.push("/book-admin")
@@ -48,6 +54,37 @@ let bookAdmin = ()=>{
     return response.data.book;
       // refetch();
   });
+  const handleDelete = (id) => {
+    setIdDelete(id);
+    handleShowDelete();
+  };
+
+  // If confirm is true, execute delete data
+  const deleteById = useMutation(async (id) => {
+    try {
+      const config = {
+        method: "DELETE",
+        headers: {
+          Authorization: "Basic " + localStorage.token,
+        },
+      };
+      await api.delete(`/book/${id}`, config);
+      // refetch();
+      bookAdmin();
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  useEffect(() => {
+    if (confirmDelete) {
+      // Close modal confirm delete data
+      handleCloseDelete();
+      // execute delete data by id function
+      deleteById.mutate(idDelete);
+      setConfirmDelete(null);
+    }
+  }, [confirmDelete]);
 
   return (
     <>
@@ -88,7 +125,9 @@ let bookAdmin = ()=>{
               <div className="row">
               <UploadBookFile/>
               <EditBook/>
-              <div className="col-4"><button className ="btn btn-danger px-3 py-2">Delete Book</button></div>
+              <div className="col-4"><button className ="btn btn-danger px-3 py-2" onClick={() => {
+                            handleDelete(id);
+                          }}>Delete Book</button></div>
               </div>
           </div>
           </div>
@@ -112,6 +151,7 @@ let bookAdmin = ()=>{
       </div>
   </div>  
         </div>
+         <DeleteBook setConfirmDelete={setConfirmDelete} showDelete={showDelete} handleCloseDelete={handleCloseDelete} />
   </div>  
   </>
 )
