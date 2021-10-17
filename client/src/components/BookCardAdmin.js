@@ -10,41 +10,40 @@ export default function BookCardAdmin({ item }) {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     let { data: user} = useQuery("userCache", async () => {
-    const config = {
-      method: "GET",
-      headers: {
-        Authorization: "Basic " + localStorage.token,
-      },
-    };
+        const config = {
+        method: "GET",
+        headers: {Authorization: "Basic " + localStorage.token,},
+        };
     const response = await api.get("/user", config);
     return response.data;
-  });
+    });
     let isActive = true;
     return (
         <>
-         {isActive ?
-         <div className="card book  bg-grey" >
-          <Link to={'/detail-book-admin/'+item.id}>  
-                <img className="card-img-top" src={item.cover} alt="Card image cap" height="300px"/>
-                <div className="card-body">
-                    <p className="card-text"><b>{item.title}</b></p>
-                    <p className="card-text text-grey">{item.author}</p>
-                </div>
-            </Link>
-        </div> : 
-        <div className="card book bg-grey cursor-pointer" onClick={handleShow} >
-                <Modal show={show} onHide={handleClose} >
-                    <div className="mb-3 py-3 px-5 text-red">
-                    please make a payment to read the latest books
+            {isActive ?
+                <div className="card book  bg-grey" >
+                    <Link to={'/detail-book-admin/'+item.id}>  
+                        <img className="card-img-top" src={item.cover} alt="Card image cap" height="300px"/>
+                        <div className="card-body">
+                            <p className="card-text"><b>{item.title}</b></p>
+                            <p className="card-text text-grey">{item.author}</p>
+                        </div>
+                    </Link>
+                </div> : 
+
+                <div className="card book bg-grey cursor-pointer" onClick={handleShow} >
+                    <Modal show={show} onHide={handleClose} >
+                        <div className="mb-3 py-3 px-5 text-red">
+                            please make a payment to read the latest books
+                        </div>
+                    </Modal>
+                    <img className="card-img-top" src={item.cover} alt="Card image cap" height="300px"/>
+                    <div className="card-body">
+                        <p className="card-text"><b>{item.title}</b></p>
+                        <p className="card-text text-grey">{item.author}</p>
                     </div>
-                </Modal>
-                <img className="card-img-top" src={item.cover} alt="Card image cap" height="300px"/>
-                <div className="card-body">
-                    <p className="card-text"><b>{item.title}</b></p>
-                    <p className="card-text text-grey">{item.author}</p>
                 </div>
-        </div>
-    } 
+            } 
         </>
     )
 }

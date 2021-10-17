@@ -2,10 +2,7 @@ import { Modal, Button } from 'react-bootstrap'
 
 export default function DeleteBook({ showDelete, handleCloseDelete, setConfirmDelete }) {
 
-    const handleDelete = () => {
-        setConfirmDelete(true)
-    }
-
+    const handleDelete = () => {setConfirmDelete(true)}
     return (
         <Modal show={showDelete} onHide={handleCloseDelete} centered>
             <Modal.Body className="text-dark">

@@ -10,7 +10,9 @@ import wow from '../assets/img/Icon.png'
 import clip from '../assets/img/clip.png'
 
 export default function Subscribe() {
+    
     let api = API();
+
     const [preview, setPreview] = useState(null);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -18,6 +20,7 @@ export default function Subscribe() {
     const [form,setForm] = useState({
         transferProof : '',
     });
+
     const handleChange = (e)=> {
         setForm({
             ...form,
@@ -29,17 +32,15 @@ export default function Subscribe() {
             setPreview(url);
         }
     };
+    
     const handleSubmit = useMutation(async (e)=>{
         try {
-
             e.preventDefault();
             const formData = new FormData();
             formData.set('transferProof', form?.transferProof[0], form?.transferProof[0]?.name);
             const config = {
                 method : 'POST',
-                headers : {
-                    Authorization : "Basic " + localStorage.token
-                },
+                headers : {Authorization : "Basic " + localStorage.token},
                 body : formData,
             };
             const response = await api.post('/subscribe', config);
@@ -65,36 +66,35 @@ export default function Subscribe() {
                                 <p className="mt-3 text-center">Pay now and access all the latest books from <img src={wow} alt="wow" width="35px" /></p>
                                 <p className="mt-3 text-center"> <img src={wow} alt="wow" width="35px" /> <b>: 0981312323</b></p>
                                 <div className="px-5">
-                                <form onSubmit={(e) => handleSubmit.mutate(e)}>
-                                    <input className="form-control bg-grey fs-6" placeholder="Input your account number" type="text" />
-                                    {preview && (
-                                    <div className="mt-3">
-                                    <img
-                                    src={preview}
-                                    style={{
-                                     maxWidth: "250px",
-                                     maxHeight: "250px",
-                                     objectFit: "cover",
-                                     }}
-                                     alt="preview"
-                                     />
-                                  </div>
-                             )}
-                                    <input type="file" name="transferProof" onChange={handleChange} id="actual-btn" hidden/>
-                                    <label className="text-red" htmlFor="actual-btn">
-                                        <span className="row">
-                                            <span className="col-10 bold"> Attach proof of transfer &nbsp;</span>
-                                            <span className="right col-2"> <img src={clip} alt="clip"  /></span>
+                                    <form onSubmit={(e) => handleSubmit.mutate(e)}>
+                                        <input className="form-control bg-grey fs-6" placeholder="Input your account number" type="text" />
+                                        {preview && (
+                                            <div className="mt-3">
+                                                <img
+                                                    src={preview}
+                                                    style={{
+                                                        maxWidth: "250px",
+                                                        maxHeight: "250px",
+                                                        objectFit: "cover",
+                                                    }}
+                                                    alt="preview"
+                                                />
+                                            </div>
+                                        )}
+                                        <input type="file" name="transferProof" onChange={handleChange} id="actual-btn" hidden/>
+                                        <label className="text-red" htmlFor="actual-btn">
+                                            <span className="row">
+                                                <span className="col-10 bold"> Attach proof of transfer &nbsp;</span>
+                                                <span className="right col-2"> <img src={clip} alt="clip"  /></span>
                                             </span>
-                                    </label>
-                                    <button type="submit" className="send mt-4 py-2 bg-red text-light">Send</button>
+                                        </label>
+                                        <button type="submit" className="send mt-4 py-2 bg-red text-light">Send</button>
                                  </form>      
-                                </div>
                             </div>
-                        </div> 
-                    </div>
+                        </div>
+                    </div> 
                 </div>
-            </div>  
-        </>
-    )
-}
+            </div>
+        </div>  
+    </>
+)}
