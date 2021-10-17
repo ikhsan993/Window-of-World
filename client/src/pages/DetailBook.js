@@ -17,7 +17,8 @@ const [show, setShow] = useState(false);
 const handleClose = () => setShow(false);
 const handleShow = () => setShow(true);
 let api = API();
-let readBook = ()=>{
+let readBook = (e)=>{
+  e.preventDefault();
     history.push("/read-book/" + id)
 }
 
@@ -94,13 +95,12 @@ let readBook = ()=>{
             <div className="col-6">
             </div>
             <div className="col-6 float-right">
+             <form>
               <div className="row px-5"> 
-              <form >
               <div className="col-6"> <button className ="signUp" onClick={(e) => handleSubmit.mutate(e)}>Add to My List &nbsp; <img src={ribbon} alt="ribbon" /></button></div>
-               </form>
               <div className="col-6"><button className ="signIn ms-3" onClick={readBook}>Read Book &nbsp; <img src={v1} alt="V" /></button></div>
                </div>
-             
+              </form>
           </div>
 </div>
 
